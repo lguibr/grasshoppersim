@@ -1,0 +1,197 @@
+import { MetricPoint } from '../../store';
+
+export const getMetricsChartOptions = (history: MetricPoint[]) => {
+    return {
+        backgroundColor: 'transparent',
+        tooltip: {
+            trigger: 'axis',
+            backgroundColor: '#0f172a',
+            borderColor: '#1e293b',
+            textStyle: { color: '#f8fafc', fontSize: 12 },
+            axisPointer: { type: 'line', lineStyle: { color: '#475569', type: 'dashed' } }
+        },
+        grid: { top: 10, right: 30, bottom: 40, left: 30, containLabel: false },
+        dataZoom: [
+            {
+                type: 'inside',
+                xAxisIndex: 0,
+                start: 0,
+                end: 100
+            },
+            {
+                type: 'slider',
+                xAxisIndex: 0,
+                start: 0,
+                end: 100,
+                height: 20,
+                bottom: 0,
+                textStyle: { color: '#94a3b8' }
+            }
+        ],
+        xAxis: {
+            type: 'category',
+            data: history.map(h => h.time),
+            show: false
+        },
+        yAxis: [
+            {
+                type: 'value',
+                min: 0,
+                splitLine: { show: false },
+                axisLabel: { color: '#475569', fontSize: 10, margin: 4 },
+                axisLine: { show: false },
+                axisTick: { show: false }
+            },
+            {
+                type: 'value',
+                min: 0,
+                max: 2,
+                splitLine: { show: false },
+                axisLabel: { color: '#475569', fontSize: 10, margin: 4 },
+                axisLine: { show: false },
+                axisTick: { show: false }
+            }
+        ],
+        series: [
+            {
+                name: 'Population',
+                type: 'line',
+                data: history.map(h => h.population),
+                itemStyle: { color: '#34d399' },
+                lineStyle: { width: 2 },
+                showSymbol: false,
+                animation: false
+            },
+            {
+                name: 'Food',
+                type: 'line',
+                data: history.map(h => h.food),
+                itemStyle: { color: '#fbbf24' },
+                lineStyle: { width: 2 },
+                showSymbol: false,
+                animation: false
+            },
+            // Speed Range
+            {
+                name: 'Speed Min',
+                type: 'bar',
+                stack: 'Speed',
+                yAxisIndex: 1,
+                itemStyle: { color: 'transparent' },
+                data: history.map(h => h.minSpeed),
+                animation: false,
+                barWidth: '40%'
+            },
+            {
+                name: 'Speed Range',
+                type: 'bar',
+                stack: 'Speed',
+                yAxisIndex: 1,
+                itemStyle: { color: 'rgba(96, 165, 250, 0.3)' },
+                data: history.map(h => h.maxSpeed - h.minSpeed),
+                animation: false
+            },
+            // Aggro Range
+            {
+                name: 'Aggro Min',
+                type: 'bar',
+                stack: 'Aggro',
+                yAxisIndex: 1,
+                itemStyle: { color: 'transparent' },
+                data: history.map(h => h.minAggro),
+                animation: false,
+                barWidth: '40%'
+            },
+            {
+                name: 'Aggro Range',
+                type: 'bar',
+                stack: 'Aggro',
+                yAxisIndex: 1,
+                itemStyle: { color: 'rgba(244, 63, 94, 0.3)' },
+                data: history.map(h => h.maxAggro - h.minAggro),
+                animation: false
+            },
+            // Age Range
+            {
+                name: 'Age Min',
+                type: 'bar',
+                stack: 'Age',
+                yAxisIndex: 0,
+                itemStyle: { color: 'transparent' },
+                data: history.map(h => h.minAge),
+                animation: false,
+                barWidth: '20%'
+            },
+            {
+                name: 'Age Range',
+                type: 'bar',
+                stack: 'Age',
+                yAxisIndex: 0,
+                itemStyle: { color: 'rgba(168, 85, 247, 0.3)' },
+                data: history.map(h => h.maxAge - h.minAge),
+                animation: false
+            },
+            // Health Range
+            {
+                name: 'Health Min',
+                type: 'bar',
+                stack: 'Health',
+                yAxisIndex: 0,
+                itemStyle: { color: 'transparent' },
+                data: history.map(h => h.minHealth),
+                animation: false,
+                barWidth: '20%'
+            },
+            {
+                name: 'Health Range',
+                type: 'bar',
+                stack: 'Health',
+                yAxisIndex: 0,
+                itemStyle: { color: 'rgba(20, 184, 166, 0.3)' },
+                data: history.map(h => h.maxHealth - h.minHealth),
+                animation: false
+            },
+            // Averages
+            {
+                name: 'Speed Avg',
+                type: 'line',
+                yAxisIndex: 1,
+                data: history.map(h => h.avgSpeed),
+                itemStyle: { color: '#60a5fa' },
+                lineStyle: { width: 2 },
+                showSymbol: false,
+                animation: false
+            },
+            {
+                name: 'Aggro Avg',
+                type: 'line',
+                yAxisIndex: 1,
+                data: history.map(h => h.avgAggro),
+                itemStyle: { color: '#f43f5e' },
+                lineStyle: { width: 2 },
+                showSymbol: false,
+                animation: false
+            },
+            {
+                name: 'Age Avg',
+                type: 'line',
+                yAxisIndex: 0,
+                data: history.map(h => h.avgAge),
+                itemStyle: { color: '#a855f7' },
+                lineStyle: { width: 2 },
+                showSymbol: false,
+                animation: false
+            },
+            {
+                name: 'Health Avg',
+                type: 'line',
+                yAxisIndex: 0,
+                data: history.map(h => h.avgHealth),
+                itemStyle: { color: '#14b8a6' },
+                lineStyle: { width: 2 },
+                showSymbol: false,
+                animation: false
+            }
+        ]
+    };
+};
