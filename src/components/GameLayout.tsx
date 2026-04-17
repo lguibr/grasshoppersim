@@ -97,15 +97,10 @@ export const GameLayout = ({ children }: { children: React.ReactNode }) => {
     triggerReset();
   };
 
-  if (simState === "setup") {
-    return <>{children}</>;
-  }
-
   const currentFood = history.length > 0 ? history[history.length - 1].food : 0;
 
   return (
     <div className="w-screen h-screen bg-black flex flex-col font-sans text-slate-200 overflow-hidden relative selection:bg-emerald-500/30">
-      
       {/* Middle Content: Canvas (Now Full Screen Background) */}
       <main className="absolute inset-0 z-0 bg-slate-950">
         {/* 3D Canvas Container */}
@@ -113,152 +108,126 @@ export const GameLayout = ({ children }: { children: React.ReactNode }) => {
       </main>
 
       {/* Floating HUD: Combined Dashboard */}
-      <aside 
+      <aside
         className="absolute top-4 left-4 bottom-4 bg-slate-950 border border-slate-700/80 flex flex-col z-20 shadow-[0_0_20px_rgba(0,0,0,0.8)] transition-all duration-300 pointer-events-auto overflow-hidden before:absolute before:inset-0 before:ring-1 before:ring-inset before:ring-white/5"
-        style={{ 
-          width: `${sidebarWidth}px`
+        style={{
+          width: `${sidebarWidth}px`,
         }}
       >
-          <div ref={sidebarRef} className="flex flex-col flex-1 overflow-hidden">
-            {/* Top Half: Roster (Larger) */}
-            <div 
-              style={{ height: `${topHeight}%` }}
-              className="flex flex-col overflow-hidden min-h-0 bg-slate-950"
-            >
-              <div className="p-3 border-b border-slate-800 bg-slate-950 flex flex-col gap-3 shrink-0">
-                <div className="flex items-center justify-around bg-slate-900 px-3 py-2 border border-slate-800 shadow-inner">
-                  <Tooltip>
-                    <TooltipTrigger
-                      render={
-                        <div className="flex flex-col items-center gap-0.5 text-emerald-400 cursor-help" />
-                      }
-                    >
-                      <Users size={18} />
-                      <span className="font-bold font-mono text-lg leading-none">
-                        {stats.length}
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Current Population</p>
-                    </TooltipContent>
-                  </Tooltip>
+        <div ref={sidebarRef} className="flex flex-col flex-1 overflow-hidden">
+          {/* Top Half: Roster (Larger) */}
+          <div
+            style={{ height: `${topHeight}%` }}
+            className="flex flex-col overflow-hidden min-h-0 bg-slate-950"
+          >
+            <div className="p-3 border-b border-slate-800 bg-slate-950 flex flex-col gap-3 shrink-0">
+              <div className="flex items-center justify-around bg-slate-900 px-3 py-2 border border-slate-800 shadow-inner">
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <div className="flex flex-col items-center gap-0.5 text-emerald-400 cursor-help" />
+                    }
+                  >
+                    <Users size={18} />
+                    <span className="font-bold font-mono text-lg leading-none">
+                      {stats.length}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Current Population</p>
+                  </TooltipContent>
+                </Tooltip>
 
-                  <div className="w-px h-8 bg-slate-700"></div>
+                <div className="w-px h-8 bg-slate-700"></div>
 
-                  <Tooltip>
-                    <TooltipTrigger
-                      render={
-                        <div className="flex flex-col items-center gap-0.5 text-amber-400 cursor-help" />
-                      }
-                    >
-                      <Leaf size={18} />
-                      <span className="font-bold font-mono text-lg leading-none">
-                        {currentFood}
-                      </span>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Available Food</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-                <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                  <Users size={12} />
-                  Population Roster
-                </h2>
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <div className="flex flex-col items-center gap-0.5 text-amber-400 cursor-help" />
+                    }
+                  >
+                    <Leaf size={18} />
+                    <span className="font-bold font-mono text-lg leading-none">
+                      {currentFood}
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Available Food</p>
+                  </TooltipContent>
+                </Tooltip>
               </div>
-              <div className="flex-1 overflow-hidden p-2">
-                <GrasshopperList
-                  stats={stats}
-                  followedId={followedId}
-                  onFollow={handleFollow}
-                />
-              </div>
+              <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                <Users size={12} />
+                Population Roster
+              </h2>
             </div>
-
-            {/* Draggable Divider */}
-            <div
-              onMouseDown={handleDragDivider}
-              className="h-1.5 w-full bg-slate-800 cursor-row-resize hover:bg-emerald-500/50 transition-colors z-50 shrink-0"
-              title="Drag to resize"
-            />
-
-            {/* Bottom Half: Metrics (Smaller) */}
-            <div 
-              style={{ height: `${100 - topHeight}%` }}
-              className="flex flex-col overflow-hidden min-h-0"
-            >
-              {simState === "running" ? (
-                <EcosystemMetrics history={history} stats={stats} />
-              ) : (
-                <SimulationControls />
-              )}
+            <div className="flex-1 overflow-hidden p-2">
+              <GrasshopperList
+                stats={stats}
+                followedId={followedId}
+                onFollow={handleFollow}
+              />
             </div>
           </div>
-        </aside>
 
-        {/* Sidebar Vertical Resizer */}
-        <div
-          onMouseDown={handleDragWidth}
-          className="absolute top-4 bottom-4 w-2 bg-transparent cursor-col-resize hover:bg-emerald-500/20 transition-colors z-50 shrink-0"
-          style={{ left: `${sidebarWidth + 14}px` }}
-          title="Drag to resize width"
-        />
+          {/* Draggable Divider */}
+          <div
+            onMouseDown={handleDragDivider}
+            className="h-1.5 w-full bg-slate-800 cursor-row-resize hover:bg-emerald-500/50 transition-colors z-50 shrink-0"
+            title="Drag to resize"
+          />
 
-        {/* Floating Controls Overlay */}
-        <div className="absolute top-4 right-4 z-30 flex gap-2 pointer-events-auto">
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handlePlayPause}
-                    className={`flex items-center justify-center gap-2 font-bold transition-colors shadow-lg backdrop-blur-sm ${
-                      simState === "running"
-                        ? "bg-amber-500/20 text-amber-500 hover:bg-amber-500/30 border-amber-500/30 hover:text-amber-400"
-                        : "bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500/30 border-emerald-500/30 hover:text-emerald-400"
-                    }`}
-                  />
-                }
-              >
-                {simState === "running" ? (
-                  <>
-                    <Pause size={14} /> PAUSE
-                  </>
-                ) : (
-                  <>
-                    <Play size={14} /> RESUME
-                  </>
-                )}
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {simState === "running"
-                    ? "Pause the simulation"
-                    : "Resume the simulation"}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={handleRestart}
-                    className="bg-slate-800/80 hover:bg-slate-700 text-slate-300 border-slate-700 shadow-lg backdrop-blur-sm"
-                  />
-                }
-              >
-                <RotateCcw size={16} />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Restart Simulation & Show Controls</p>
-              </TooltipContent>
-            </Tooltip>
+          {/* Bottom Half: Metrics (Smaller) */}
+          <div
+            style={{ height: `${100 - topHeight}%` }}
+            className="flex flex-col overflow-hidden min-h-0"
+          >
+            {simState === "running" ? (
+              <EcosystemMetrics history={history} stats={stats} />
+            ) : (
+              <SimulationControls />
+            )}
           </div>
+        </div>
+      </aside>
 
+      {/* Sidebar Vertical Resizer */}
+      <div
+        onMouseDown={handleDragWidth}
+        className="absolute top-4 bottom-4 w-2 bg-transparent cursor-col-resize hover:bg-emerald-500/20 transition-colors z-50 shrink-0"
+        style={{ left: `${sidebarWidth + 14}px` }}
+        title="Drag to resize width"
+      />
+
+      {/* Floating Action Controls */}
+      <div className="absolute top-4 right-4 z-30 flex gap-4 pointer-events-auto items-center">
+        <Button
+          onClick={handlePlayPause}
+          className={`flex items-center justify-center gap-3 font-black text-[15px] tracking-widest px-8 py-6 rounded-none transition-all shadow-[0_0_20px_rgba(0,0,0,0.8)] border-2 backdrop-blur-md ${
+            simState === "running"
+              ? "bg-amber-600 hover:bg-amber-500 text-white border-amber-400 shadow-[0_0_15px_rgba(245,158,11,0.4)]"
+              : "bg-emerald-600 hover:bg-emerald-500 text-white border-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.4)] animate-pulse"
+          }`}
+        >
+          {simState === "running" ? (
+            <>
+              <Pause size={20} className="fill-current" /> PAUSE
+            </>
+          ) : (
+            <>
+              <Play size={20} className="fill-current" /> START
+            </>
+          )}
+        </Button>
+
+        <Button
+          onClick={handleRestart}
+          className="flex items-center justify-center gap-2 font-black text-[15px] tracking-widest px-6 py-6 rounded-none bg-slate-900 border-slate-700 hover:bg-slate-800 text-slate-200 border-2 shadow-lg backdrop-blur-md"
+        >
+          <RotateCcw size={18} />
+          RESET
+        </Button>
+      </div>
     </div>
   );
 };

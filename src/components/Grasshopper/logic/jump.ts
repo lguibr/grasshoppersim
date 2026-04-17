@@ -30,16 +30,24 @@ export const initJump = (
     const horizontalSpeed =
       (Math.random() * 25 + 15 + flyBonus * 25) * s.traits.jumpDistance;
     const distance = horizontalSpeed * airTime;
-    
+
     // Attempt to avoid water by picking up to 5 different directions
     let attempts = 0;
     let foundLand = false;
-    
+
     while (attempts < 5 && !foundLand) {
       s.angle += (Math.random() - 0.5) * Math.PI;
-      getPointFromHeadingAndDistance(s.startPos, s.angle, distance, s.targetPos);
-      
-      if (settings && s.targetPos.length() >= settings.envSize * 0.3 + settings.waterLevel) {
+      getPointFromHeadingAndDistance(
+        s.startPos,
+        s.angle,
+        distance,
+        s.targetPos,
+      );
+
+      if (
+        settings &&
+        s.targetPos.length() >= settings.envSize * 0.3 + settings.waterLevel
+      ) {
         foundLand = true;
       }
       attempts++;

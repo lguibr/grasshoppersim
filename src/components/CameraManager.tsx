@@ -31,15 +31,29 @@ export const CameraManager = () => {
         const headPos = pos.clone().add(headOffset);
 
         // Compute true forward direction from spherical rotation quaternion exactly matching the mesh rendering
-        const alignQuat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
-        const yawQuat = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), angle);
-        const finalQuat = new THREE.Quaternion().multiplyQuaternions(alignQuat, yawQuat);
-        
+        const alignQuat = new THREE.Quaternion().setFromUnitVectors(
+          new THREE.Vector3(0, 1, 0),
+          up,
+        );
+        const yawQuat = new THREE.Quaternion().setFromAxisAngle(
+          new THREE.Vector3(0, 1, 0),
+          angle,
+        );
+        const finalQuat = new THREE.Quaternion().multiplyQuaternions(
+          alignQuat,
+          yawQuat,
+        );
+
         // Grasshopper mesh is facing +Z
-        const dir = new THREE.Vector3(0, 0, 1).applyQuaternion(finalQuat).normalize();
+        const dir = new THREE.Vector3(0, 0, 1)
+          .applyQuaternion(finalQuat)
+          .normalize();
 
         // Position camera tightly behind the head for Action POV
-        const cameraOffset = up.clone().multiplyScalar(1.4).add(dir.clone().multiplyScalar(-1.5));
+        const cameraOffset = up
+          .clone()
+          .multiplyScalar(1.4)
+          .add(dir.clone().multiplyScalar(-1.5));
         const targetCameraPos = pos.clone().add(cameraOffset);
 
         // Look directly ahead along the vision path

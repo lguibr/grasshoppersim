@@ -52,7 +52,8 @@ export const applyJumpAnimation = (
       jumpProgress,
     );
     const baseHeight = Math.max(interpolatedLength, currentGround);
-    const currentHeight = baseHeight + s.jumpHeight * (1 - Math.pow(Math.abs(nx), s.flyPower));
+    const currentHeight =
+      baseHeight + s.jumpHeight * (1 - Math.pow(Math.abs(nx), s.flyPower));
 
     group.current.position.normalize().multiplyScalar(currentHeight);
 
@@ -81,17 +82,9 @@ export const applyJumpAnimation = (
       const flap = Math.sin(jumpProgress * 80) * 0.5; // Rapid flapping
       // Hinge on Z axis (roll) and slightly pitch up (X) to simulate wing spreading
       if (leftWing.current)
-        leftWing.current.rotation.set(
-          Math.PI / 2 - 0.15,
-          0.3,
-          flap * 1.5,
-        );
+        leftWing.current.rotation.set(Math.PI / 2 - 0.15, 0.3, flap * 1.5);
       if (rightWing.current)
-        rightWing.current.rotation.set(
-          Math.PI / 2 - 0.15,
-          -0.3,
-          -flap * 1.5,
-        );
+        rightWing.current.rotation.set(Math.PI / 2 - 0.15, -0.3, -flap * 1.5);
     } else {
       if (leftWing.current)
         leftWing.current.rotation.set(Math.PI / 2 - 0.25, 0.1, 0);

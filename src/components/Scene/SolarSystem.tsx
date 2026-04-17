@@ -33,7 +33,7 @@ export const SolarSystem = ({ size }: { size: number }) => {
       sunRedRef.current.position.set(
         binaryCenterX + Math.cos(t * 0.5) * 150,
         binaryCenterY,
-        binaryCenterZ + Math.sin(t * 0.5) * 150
+        binaryCenterZ + Math.sin(t * 0.5) * 150,
       );
       sunRedRef.current.rotation.y += 0.01;
     }
@@ -43,7 +43,7 @@ export const SolarSystem = ({ size }: { size: number }) => {
       sunBlueRef.current.position.set(
         binaryCenterX + Math.cos(t * 0.5 + Math.PI) * 200,
         binaryCenterY,
-        binaryCenterZ + Math.sin(t * 0.5 + Math.PI) * 200
+        binaryCenterZ + Math.sin(t * 0.5 + Math.PI) * 200,
       );
       sunBlueRef.current.rotation.y -= 0.02;
     }
@@ -53,8 +53,8 @@ export const SolarSystem = ({ size }: { size: number }) => {
       const pDist = 800; // Distance from the binary stars
       otherPlanetRef.current.position.set(
         binaryCenterX + Math.cos(t * 0.15) * pDist,
-        binaryCenterY, 
-        binaryCenterZ + Math.sin(t * 0.15) * pDist
+        binaryCenterY,
+        binaryCenterZ + Math.sin(t * 0.15) * pDist,
       );
       otherPlanetRef.current.rotation.y += 0.02;
       otherPlanetRef.current.rotation.x += 0.01;
@@ -63,14 +63,22 @@ export const SolarSystem = ({ size }: { size: number }) => {
     // Moons (Orbiting the grasshopper world)
     if (moon1Ref.current) {
       const r = baseRadius + 100;
-      moon1Ref.current.position.set(Math.cos(t * 0.8) * r, 0, Math.sin(t * 0.8) * r);
+      moon1Ref.current.position.set(
+        Math.cos(t * 0.8) * r,
+        0,
+        Math.sin(t * 0.8) * r,
+      );
       moon1Ref.current.rotation.x += 0.02;
       moon1Ref.current.rotation.y += 0.01;
     }
 
     if (moon2Ref.current) {
       const r = baseRadius + 220;
-      moon2Ref.current.position.set(Math.sin(t * 0.4) * r, 0, Math.cos(t * 0.4) * r);
+      moon2Ref.current.position.set(
+        Math.sin(t * 0.4) * r,
+        0,
+        Math.cos(t * 0.4) * r,
+      );
       moon2Ref.current.rotation.y += 0.03;
     }
   });
@@ -80,15 +88,37 @@ export const SolarSystem = ({ size }: { size: number }) => {
       {/* Red Star */}
       <mesh ref={sunRedRef}>
         <sphereGeometry args={[140, 64, 64]} />
-        <meshStandardMaterial emissive="#ef4444" emissiveIntensity={10} color="#000000" />
-        <pointLight intensity={150} distance={15000} decay={0.5} color="#ef4444" castShadow shadow-mapSize={[2048, 2048]} />
+        <meshStandardMaterial
+          emissive="#ef4444"
+          emissiveIntensity={10}
+          color="#000000"
+        />
+        <pointLight
+          intensity={150}
+          distance={15000}
+          decay={0.5}
+          color="#ef4444"
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+        />
       </mesh>
 
       {/* Blue-White Star */}
       <mesh ref={sunBlueRef}>
         <sphereGeometry args={[70, 64, 64]} />
-        <meshStandardMaterial emissive="#e0f2fe" emissiveIntensity={20} color="#000000" />
-        <pointLight intensity={250} distance={15000} decay={0.5} color="#e0f2fe" castShadow shadow-mapSize={[2048, 2048]} />
+        <meshStandardMaterial
+          emissive="#e0f2fe"
+          emissiveIntensity={20}
+          color="#000000"
+        />
+        <pointLight
+          intensity={250}
+          distance={15000}
+          decay={0.5}
+          color="#e0f2fe"
+          castShadow
+          shadow-mapSize={[2048, 2048]}
+        />
       </mesh>
 
       {/* Other Planet with Ring (orbits the binary stars on the same plane) */}

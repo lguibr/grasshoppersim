@@ -1,7 +1,11 @@
 import React, { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { getGroundHeight, getGroundNormal, getPointFromHeadingAndDistance } from "../../../utils/terrain";
+import {
+  getGroundHeight,
+  getGroundNormal,
+  getPointFromHeadingAndDistance,
+} from "../../../utils/terrain";
 
 export const Ladybug = ({ initialPos }: { initialPos: THREE.Vector3 }) => {
   const groupRef = useRef<THREE.Group>(null);
@@ -41,7 +45,10 @@ export const Ladybug = ({ initialPos }: { initialPos: THREE.Vector3 }) => {
     groupRef.current.quaternion.copy(alignQuat).multiply(yawQuat);
 
     // Bobbing
-    groupRef.current.position.addScaledVector(normal, Math.sin(s.time * 10) * 0.1);
+    groupRef.current.position.addScaledVector(
+      normal,
+      Math.sin(s.time * 10) * 0.1,
+    );
   });
 
   return (

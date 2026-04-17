@@ -32,8 +32,9 @@ export const SHARED_MATERIALS = {
   visionCone: new THREE.MeshBasicMaterial({
     color: 0x00ff00,
     transparent: true,
-    opacity: 0.002,
+    opacity: 0.1,
     depthWrite: false,
+    blending: THREE.AdditiveBlending,
     side: THREE.DoubleSide,
   }),
 };
@@ -58,10 +59,14 @@ export const useGrasshopperMaterials = (isBaby: boolean | undefined) => {
     [],
   );
 
-  const materials = useMemo(() => ({
-    ...SHARED_MATERIALS,
-    visionCone: SHARED_MATERIALS.visionCone.clone() as THREE.MeshBasicMaterial,
-  }), []);
+  const materials = useMemo(
+    () => ({
+      ...SHARED_MATERIALS,
+      visionCone:
+        SHARED_MATERIALS.visionCone.clone() as THREE.MeshBasicMaterial,
+    }),
+    [],
+  );
 
   return { shape, baseColors: SHARED_COLORS, materials };
 };

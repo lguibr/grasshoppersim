@@ -36,7 +36,9 @@ export const handleFighting = (
       }
 
       const h = getGroundHeight(refs.group.current!.position);
-      refs.group.current!.position.normalize().multiplyScalar(h + Math.abs(Math.sin(t * 20)) * 1.5);
+      refs.group
+        .current!.position.normalize()
+        .multiplyScalar(h + Math.abs(Math.sin(t * 20)) * 1.5);
       if (refs.bodyGroup.current) {
         refs.bodyGroup.current.rotation.z = Math.sin(t * 40) * 0.3;
         refs.bodyGroup.current.rotation.x = Math.cos(t * 40) * 0.3;
@@ -85,7 +87,9 @@ export const handleFighting = (
         }
 
         const h = getGroundHeight(refs.group.current!.position);
-        refs.group.current!.position.normalize().multiplyScalar(h + Math.abs(Math.sin(t * 20)) * 1.5);
+        refs.group
+          .current!.position.normalize()
+          .multiplyScalar(h + Math.abs(Math.sin(t * 20)) * 1.5);
         if (refs.bodyGroup.current) {
           refs.bodyGroup.current.rotation.z = Math.sin(t * 40) * 0.3;
           refs.bodyGroup.current.rotation.x = Math.cos(t * 40) * 0.3;

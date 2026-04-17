@@ -46,7 +46,9 @@ export const updateGrasshopperFrame = (
   const simState = useSimulationStore.simulationState;
 
   if (simState === "running") {
-    const isUnderwater = refs.group.current.position.length() < (settings.envSize * 0.3 + settings.waterLevel);
+    const isUnderwater =
+      refs.group.current.position.length() <
+      settings.envSize * 0.3 + settings.waterLevel;
     if (isUnderwater) {
       s.waterTime = (s.waterTime || 0) + delta;
       if (s.waterTime > 10) {
@@ -100,12 +102,12 @@ export const updateGrasshopperFrame = (
       _alignQuat.setFromUnitVectors(_up, _normal);
       _yawQuat.setFromAxisAngle(_up, s.angle);
       _targetQuat.multiplyQuaternions(_alignQuat, _yawQuat);
-      
+
       refs.group.current.quaternion.slerp(_targetQuat, 0.15);
     }
   }
 
-  syncGrasshopperState(id, s, materials, baseColors, t);
+  syncGrasshopperState(id, s, materials, baseColors, t, settings);
 
   if (simState === "running") {
     handleBehavior(s, refs.group.current, foodsRef, settings, t);

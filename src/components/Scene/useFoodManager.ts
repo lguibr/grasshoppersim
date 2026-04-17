@@ -21,7 +21,36 @@ export const useFoodManager = (
 
   useEffect(() => {
     foodsRef.current.clear();
-  }, [resetTrigger, foodsRef]);
+
+    // Seed initial food alongside the swarm during setup
+    const initialFoodCount = Math.floor(settings.maxFood * 0.5);
+    for (let i = 0; i < initialFoodCount; i++) {
+      const id = generateId();
+      const health = 100 + Math.random() * 200;
+      const scale = (0.8 + Math.random() * 0.6) * (health / 100);
+
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      const dir = new THREE.Vector3(
+        Math.sin(phi) * Math.cos(theta),
+        Math.sin(phi) * Math.sin(theta),
+        Math.cos(phi),
+      );
+      const dist = getGroundHeight(dir);
+      dir.multiplyScalar(dist);
+
+      const newFood: FoodData = {
+        id,
+        position: [dir.x, dir.y, dir.z],
+        scale,
+        health,
+        type: "plant",
+      };
+      foodsRef.current.set(id, newFood);
+    }
+  }, [resetTrigger, foodsRef, settings.maxFood]);
 
   useFoodSpawner(foodsRef, settings);
   useEggHatcher(foodsRef, addCrickets);

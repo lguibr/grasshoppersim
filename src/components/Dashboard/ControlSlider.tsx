@@ -54,7 +54,10 @@ export const ControlSlider = ({
             {icon}
             <span className="truncate max-w-[80px]">{label}</span>
           </TooltipTrigger>
-          <TooltipContent side="left" className="bg-slate-950 border-emerald-500/50 rounded-none text-emerald-400 font-mono text-[10px]">
+          <TooltipContent
+            side="left"
+            className="bg-slate-950 border-emerald-500/50 rounded-none text-emerald-400 font-mono text-[10px]"
+          >
             <p>{tooltip}</p>
           </TooltipContent>
         </Tooltip>

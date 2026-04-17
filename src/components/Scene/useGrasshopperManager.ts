@@ -34,29 +34,10 @@ export const useGrasshopperManager = (
     positionsRef.current.clear();
     targetsRef.current.clear();
 
-    if (simState === "setup") {
-      useSimulationStore.reset(1, 0);
-      const nameData = generateName();
-      const initial = [
-        {
-          id: generateId(),
-          pos: [0, getGroundHeight(new THREE.Vector3(0, 1, 0)), 0] as [number, number, number],
-          isBaby: false,
-          parentTraits: {
-            jumpDistance: 1.5,
-            jumpHeight: 1.5,
-            speed: 1.5,
-            aggressiveness: 1,
-            lastName: nameData.lastName,
-            generation: 1,
-          },
-        },
-      ];
-      setCrickets(initial);
-      useSimulationStore.positions = positionsRef.current;
-      useSimulationStore.setFollowedId(null);
-    } else if (simState === "running" && useSimulationStore.stats.size <= 1) {
-      // Transitioning from setup to running
+    if (
+      simState === "setup" ||
+      (simState === "running" && useSimulationStore.stats.size === 0)
+    ) {
       useSimulationStore.reset(settings.initialGrasshoppers, 0);
       const initial = Array.from(
         { length: settings.initialGrasshoppers },
@@ -68,7 +49,7 @@ export const useGrasshopperManager = (
           const dir = new THREE.Vector3(
             Math.sin(phi) * Math.cos(theta),
             Math.sin(phi) * Math.sin(theta),
-            Math.cos(phi)
+            Math.cos(phi),
           );
           const dist = getGroundHeight(dir);
           dir.multiplyScalar(dist);
@@ -89,6 +70,9 @@ export const useGrasshopperManager = (
       );
       setCrickets(initial);
       useSimulationStore.positions = positionsRef.current;
+      if (simState === "setup") {
+        useSimulationStore.setFollowedId(null);
+      }
     }
   }, [
     resetTrigger,

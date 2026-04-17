@@ -10,7 +10,7 @@ export const defaultSettings: SimulationSettings = {
   fightLifesteal: 50,
   waterLevel: -12,
   terrainRoughness: 20,
-  uiOpacity: 100,
+  visionConeOpacity: 60,
 };
 
 interface SettingsContextType {

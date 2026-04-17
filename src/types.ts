@@ -75,5 +75,5 @@ export interface SimulationSettings {
   fightLifesteal: number;
   waterLevel: number;
   terrainRoughness: number;
-  uiOpacity: number;
+  visionConeOpacity: number;
 }

@@ -39,7 +39,9 @@ export const handleEating = (
     s.growth >= 1 &&
     t - (s.lastReproductionTime || 0) > 2
   ) {
-    const eggPos = refs.group.current!.position.clone().add(new THREE.Vector3().randomDirection().multiplyScalar(2));
+    const eggPos = refs.group
+      .current!.position.clone()
+      .add(new THREE.Vector3().randomDirection().multiplyScalar(2));
     const h = getGroundHeight(eggPos);
     const finalPos = eggPos.normalize().multiplyScalar(h);
     onSpawnEgg([finalPos.x, finalPos.y, finalPos.z], s.traits);

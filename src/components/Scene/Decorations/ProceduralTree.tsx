@@ -9,7 +9,10 @@ export const ProceduralTree = ({
   seed: number;
 }) => {
   const up = position.clone().normalize();
-  const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+  const quat = new THREE.Quaternion().setFromUnitVectors(
+    new THREE.Vector3(0, 1, 0),
+    up,
+  );
   const random = (offset: number) => {
     const x = Math.sin(seed * 12.9898 + offset * 78.233) * 43758.5453;
     return x - Math.floor(x);

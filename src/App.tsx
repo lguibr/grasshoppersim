@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { Scene } from "./components/Scene";
 import { SettingsProvider } from "./context/SettingsContext";
 import { CameraManager } from "./components/CameraManager";
-import { LoadingScreen } from "./components/LoadingScreen";
+
 import { GameLayout } from "./components/GameLayout";
 import { TooltipProvider } from "./components/ui/tooltip";
 
@@ -14,7 +14,6 @@ export default function App() {
     <SettingsProvider>
       <TooltipProvider>
         <GameLayout>
-          <LoadingScreen />
           <Canvas
             shadows={{ type: THREE.PCFShadowMap }}
             camera={{ position: [0, 300, 600], fov: 45, far: 20000 }}

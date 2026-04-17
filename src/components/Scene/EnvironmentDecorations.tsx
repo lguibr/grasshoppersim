@@ -49,7 +49,8 @@ export const EnvironmentDecorations = ({ size }: { size: number }) => {
         // Add ladybugs near trees
         if (Math.random() > 0.3) {
           // perturb on sphere
-          const lbDir = p.clone()
+          const lbDir = p
+            .clone()
             .add(new THREE.Vector3().randomDirection().multiplyScalar(0.05))
             .normalize();
           const lbDist = getGroundHeight(lbDir);
@@ -59,7 +60,8 @@ export const EnvironmentDecorations = ({ size }: { size: number }) => {
         // Add mushrooms near trees
         for (let j = 0; j < 3; j++) {
           if (Math.random() > 0.5) {
-            const mDir = p.clone()
+            const mDir = p
+              .clone()
               .add(new THREE.Vector3().randomDirection().multiplyScalar(0.04))
               .normalize();
             const mDist = getGroundHeight(mDir);
@@ -118,14 +120,13 @@ export const EnvironmentDecorations = ({ size }: { size: number }) => {
       {/* Flowers */}
       {flowerPositions.map((f, i) => {
         const up = f.pos.clone().normalize();
-        const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+        const quat = new THREE.Quaternion().setFromUnitVectors(
+          new THREE.Vector3(0, 1, 0),
+          up,
+        );
         return (
           <group key={`flower-${i}`} position={f.pos} quaternion={quat}>
-            <mesh
-              geometry={flowerGeom}
-              position={[0, 0.15, 0]}
-              castShadow
-            >
+            <mesh geometry={flowerGeom} position={[0, 0.15, 0]} castShadow>
               <meshStandardMaterial color={f.color} roughness={0.4} />
             </mesh>
           </group>

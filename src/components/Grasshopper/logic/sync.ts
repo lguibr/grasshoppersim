@@ -11,6 +11,7 @@ export const syncGrasshopperState = (
   materials: any,
   baseColors: any,
   t: number,
+  settings: any,
 ) => {
   if (t - (s.lastSyncTime || 0) <= 0.2) return;
 
@@ -27,7 +28,8 @@ export const syncGrasshopperState = (
   );
   materials.leg.color.lerpColors(baseColors.red, baseColors.leg, healthRatio);
   materials.visionCone.color.lerpColors(redColor, greenColor, healthRatio);
-  materials.visionCone.opacity = Math.max(0.01, healthRatio * 0.15);
+  const opacityValue = Math.max(0.01, healthRatio * 0.4) * (settings.visionConeOpacity / 100);
+  materials.visionCone.opacity = opacityValue;
 
   if (s.isFighting) {
     materials.eye.color.setHex(0xff0000);

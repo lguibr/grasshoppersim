@@ -9,19 +9,26 @@ import {
   Swords,
   Activity,
   Eye,
+  Play,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 import { ControlSlider } from "./ControlSlider";
 import { useSettings } from "../../context/SettingsContext";
 import { setEnvSize, setTerrainRoughness } from "../../utils/terrain";
+import { useSimulationStore } from "../../store";
 
 export const SimulationControls = () => {
   const { settings, updateSetting } = useSettings();
 
+  const handleUpdate = (key: keyof typeof settings, v: number) => {
+    updateSetting(key, v);
+    useSimulationStore.setSimulationState("setup");
+  };
+
   return (
     <>
       <div className="p-4 border-b border-slate-800 bg-slate-950 shrink-0 shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
-        <h2 className="text-xs font-black text-emerald-400 uppercase tracking-[0.3em] flex items-center gap-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+        <h2 className="text-xs font-black text-emerald-400 uppercase tracking-[0.3em] flex items-center gap-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)] mb-1">
           <SettingsIcon size={14} className="animate-spin-slow" />
           Simulation Controls
         </h2>
@@ -34,7 +41,7 @@ export const SimulationControls = () => {
           min={0.1}
           max={10}
           step={0.1}
-          onChange={(v) => updateSetting("healthDecay", v)}
+          onChange={(v) => handleUpdate("healthDecay", v)}
           tooltip="Health loss over time"
         />
 
@@ -46,8 +53,8 @@ export const SimulationControls = () => {
           max={500}
           step={1}
           onChange={(v) => {
-            updateSetting("envSize", v);
             setEnvSize(v);
+            handleUpdate("envSize", v);
           }}
           tooltip="Simulation scale"
         />
@@ -59,7 +66,7 @@ export const SimulationControls = () => {
           min={10}
           max={500}
           step={10}
-          onChange={(v) => updateSetting("maxFood", v)}
+          onChange={(v) => handleUpdate("maxFood", v)}
           tooltip="Max food count"
         />
 
@@ -70,7 +77,7 @@ export const SimulationControls = () => {
           min={100}
           max={5000}
           step={100}
-          onChange={(v) => updateSetting("foodSpawnRate", v)}
+          onChange={(v) => handleUpdate("foodSpawnRate", v)}
           tooltip="Food spawn frequency"
         />
 
@@ -81,7 +88,7 @@ export const SimulationControls = () => {
           min={10}
           max={500}
           step={10}
-          onChange={(v) => updateSetting("initialGrasshoppers", v)}
+          onChange={(v) => handleUpdate("initialGrasshoppers", v)}
           tooltip="Starting crickets"
         />
 
@@ -92,7 +99,7 @@ export const SimulationControls = () => {
           min={0}
           max={100}
           step={1}
-          onChange={(v) => updateSetting("fightLifesteal", v)}
+          onChange={(v) => handleUpdate("fightLifesteal", v)}
           tooltip="Combat healing"
         />
 
@@ -103,7 +110,7 @@ export const SimulationControls = () => {
           min={-50}
           max={50}
           step={1}
-          onChange={(v) => updateSetting("waterLevel", v)}
+          onChange={(v) => handleUpdate("waterLevel", v)}
           tooltip="Ocean height"
         />
 
@@ -115,21 +122,22 @@ export const SimulationControls = () => {
           max={100}
           step={1}
           onChange={(v) => {
-            updateSetting("terrainRoughness", v);
             setTerrainRoughness(v);
+            handleUpdate("terrainRoughness", v);
           }}
           tooltip="Terrain noise"
         />
-
+      </div>
+      <div className="p-4 border-t border-slate-800 bg-slate-950">
         <ControlSlider
           icon={<Eye size={14} className="text-pink-400" />}
-          label="UI Opacity"
-          value={settings.uiOpacity}
+          label="Cone Opacity"
+          value={settings.visionConeOpacity}
           min={0}
           max={100}
-          step={1}
-          onChange={(v) => updateSetting("uiOpacity", v)}
-          tooltip="Dashboard Alpha"
+          step={5}
+          onChange={(v) => handleUpdate("visionConeOpacity", v)}
+          tooltip="Toggle Grasshopper POV Vision Ray"
         />
       </div>
     </>

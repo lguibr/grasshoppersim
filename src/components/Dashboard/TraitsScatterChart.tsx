@@ -100,19 +100,28 @@ export const TraitsScatterChart = ({ stats }: { stats: CricketStat[] }) => {
         },
         {
           type: "line3D",
-          data: [[0, 0, 0], [2.2, 0, 0]],
+          data: [
+            [0, 0, 0],
+            [2.2, 0, 0],
+          ],
           lineStyle: { width: 3, color: "#94a3b8" },
           animation: false,
         },
         {
           type: "line3D",
-          data: [[0, 0, 0], [0, 2.2, 0]],
+          data: [
+            [0, 0, 0],
+            [0, 2.2, 0],
+          ],
           lineStyle: { width: 3, color: "#94a3b8" },
           animation: false,
         },
         {
           type: "line3D",
-          data: [[0, 0, 0], [0, 0, 2.2]],
+          data: [
+            [0, 0, 0],
+            [0, 0, 2.2],
+          ],
           lineStyle: { width: 3, color: "#94a3b8" },
           animation: false,
         },
@@ -156,10 +165,10 @@ export const TraitsScatterChart = ({ stats }: { stats: CricketStat[] }) => {
         <span>Alpha: Age</span>
       </div>
       <ReactECharts
-          ref={chartRef}
-          option={baseOption}
-          style={{ height: "100%", width: "100%" }}
-        />
+        ref={chartRef}
+        option={baseOption}
+        style={{ height: "100%", width: "100%" }}
+      />
     </div>
   );
 };

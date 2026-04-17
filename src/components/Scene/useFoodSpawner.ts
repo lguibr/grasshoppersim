@@ -30,7 +30,7 @@ export const useFoodSpawner = (
         const dir = new THREE.Vector3(
           Math.sin(phi) * Math.cos(theta),
           Math.sin(phi) * Math.sin(theta),
-          Math.cos(phi)
+          Math.cos(phi),
         );
         const dist = getGroundHeight(dir);
         dir.multiplyScalar(dist);

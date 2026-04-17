@@ -1,12 +1,16 @@
 import React, { useEffect, useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { getGroundHeight, setEnvSize, setTerrainRoughness } from "../../utils/terrain";
+import {
+  getGroundHeight,
+  setEnvSize,
+  setTerrainRoughness,
+} from "../../utils/terrain";
 import { useSettings } from "../../context/SettingsContext";
 
 export const Terrain = ({ size }: { size: number }) => {
   const { settings } = useSettings();
-  
+
   // Update the global physics engine variables
   setEnvSize(size);
   setTerrainRoughness(settings.terrainRoughness);

@@ -1,13 +1,13 @@
-import React, { useRef, useMemo, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Environment, Sky } from '@react-three/drei';
-import * as THREE from 'three';
-import { Grasshopper } from './index';
-import { FoodData } from '../../types';
-import { SettingsProvider } from '../../context/SettingsContext';
+import React, { useRef, useMemo, useEffect } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { OrbitControls, Environment, Sky } from "@react-three/drei";
+import * as THREE from "three";
+import { Grasshopper } from "./index";
+import { FoodData } from "../../types";
+import { SettingsProvider } from "../../context/SettingsContext";
 
 export default {
-  title: 'Simulation/Grasshopper',
+  title: "Simulation/Grasshopper",
   component: Grasshopper,
 };
 
@@ -20,13 +20,13 @@ const SphereWorldDemo = () => {
   const initialPos = useMemo(() => new THREE.Vector3(0, 50, 0), []);
   positionsRef.current.set(0, initialPos);
 
-  const handleFoodEaten = (id: number) => console.log('Eaten', id);
-  const handleDie = (id: number) => console.log('Died', id);
-  const handleSpawnEgg = () => console.log('Spawn Egg');
+  const handleFoodEaten = (id: number) => console.log("Eaten", id);
+  const handleDie = (id: number) => console.log("Died", id);
+  const handleSpawnEgg = () => console.log("Spawn Egg");
 
   return (
     <>
-      <color attach="background" args={['#87CEEB']} />
+      <color attach="background" args={["#87CEEB"]} />
       <ambientLight intensity={1.5} />
       <directionalLight position={[10, 10, 5]} intensity={2} castShadow />
       <Sky sunPosition={[100, 20, 100]} turbidity={0.3} rayleigh={0.5} />
@@ -54,7 +54,7 @@ const SphereWorldDemo = () => {
 
 export const InfiniteFlightSphere = () => {
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div style={{ width: "100vw", height: "100vh" }}>
       <SettingsProvider>
         <Canvas shadows camera={{ position: [0, 60, 20], fov: 45 }}>
           <SphereWorldDemo />

@@ -1,5 +1,5 @@
-import '@testing-library/jest-dom';
-import * as THREE from 'three';
+import "@testing-library/jest-dom";
+import * as THREE from "three";
 
 // Mock matchMedia
 window.matchMedia =

@@ -3,7 +3,10 @@ import * as THREE from "three";
 
 export const MushroomType1 = ({ position }: { position: THREE.Vector3 }) => {
   const up = position.clone().normalize();
-  const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+  const quat = new THREE.Quaternion().setFromUnitVectors(
+    new THREE.Vector3(0, 1, 0),
+    up,
+  );
   return (
     <group position={position} quaternion={quat}>
       <mesh position={[0, 0.4, 0]} castShadow>
@@ -33,7 +36,10 @@ export const MushroomType1 = ({ position }: { position: THREE.Vector3 }) => {
 
 export const MushroomType2 = ({ position }: { position: THREE.Vector3 }) => {
   const up = position.clone().normalize();
-  const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+  const quat = new THREE.Quaternion().setFromUnitVectors(
+    new THREE.Vector3(0, 1, 0),
+    up,
+  );
   return (
     <group position={position} quaternion={quat}>
       <mesh position={[0, 0.25, 0]} castShadow>

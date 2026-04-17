@@ -34,7 +34,10 @@ export const InstancedFoods = ({
       const dir = new THREE.Vector3(...data.position).normalize();
       const up = new THREE.Vector3(0, 1, 0);
       const alignQuat = new THREE.Quaternion().setFromUnitVectors(up, dir);
-      const yawQuat = new THREE.Quaternion().setFromAxisAngle(up, (data.id * 1.5) % (Math.PI * 2));
+      const yawQuat = new THREE.Quaternion().setFromAxisAngle(
+        up,
+        (data.id * 1.5) % (Math.PI * 2),
+      );
       dummy.quaternion.multiplyQuaternions(alignQuat, yawQuat);
 
       if (data.type === "egg") {
