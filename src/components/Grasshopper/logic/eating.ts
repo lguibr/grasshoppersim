@@ -1,7 +1,12 @@
-import * as THREE from 'three';
-import { GrasshopperState, GrasshopperRefs, FoodData, GrasshopperTraits } from '../../../types';
-import { resetAnimation, applyEatingAnimation } from './animation';
-import { getGroundHeight } from '../../../utils/terrain';
+import * as THREE from "three";
+import {
+  GrasshopperState,
+  GrasshopperRefs,
+  FoodData,
+  GrasshopperTraits,
+} from "../../../types";
+import { resetAnimation, applyEatingAnimation } from "./animation";
+import { getGroundHeight } from "../../../utils/terrain";
 
 export const handleEating = (
   s: GrasshopperState,
@@ -10,7 +15,10 @@ export const handleEating = (
   delta: number,
   t: number,
   onFoodEaten: (id: number) => void,
-  onSpawnEgg: (pos: [number, number, number], traits: GrasshopperTraits) => void
+  onSpawnEgg: (
+    pos: [number, number, number],
+    traits: GrasshopperTraits,
+  ) => void,
 ) => {
   const food = foodsRef.current.get(s.targetFoodId!);
   if (!food || food.health <= 0) {
@@ -23,13 +31,18 @@ export const handleEating = (
   food.health -= delta * 20;
   s.health = Math.min(200, s.health + delta * 20);
   s.growth = Math.min(1, s.growth + delta * 0.4);
-  
+
   // Reproduce while eating if healthy and mature enough, with a 2 second cooldown
   // Require 200% health to lay an egg to avoid super spawning
-  if (s.health >= 200 && s.growth >= 1 && (t - (s.lastReproductionTime || 0) > 2)) {
-    const eggX = refs.group.current!.position.x + (Math.random() - 0.5) * 2;
-    const eggZ = refs.group.current!.position.z + (Math.random() - 0.5) * 2;
-    onSpawnEgg([eggX, getGroundHeight(eggX, eggZ), eggZ], s.traits);
+  if (
+    s.health >= 200 &&
+    s.growth >= 1 &&
+    t - (s.lastReproductionTime || 0) > 2
+  ) {
+    const eggPos = refs.group.current!.position.clone().add(new THREE.Vector3().randomDirection().multiplyScalar(2));
+    const h = getGroundHeight(eggPos);
+    const finalPos = eggPos.normalize().multiplyScalar(h);
+    onSpawnEgg([finalPos.x, finalPos.y, finalPos.z], s.traits);
     s.health -= 150; // Cost of reproduction
     s.lastReproductionTime = t;
   }

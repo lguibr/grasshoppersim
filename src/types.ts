@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 
 export interface GrasshopperTraits {
   jumpDistance: number;
@@ -28,9 +28,9 @@ export interface GrasshopperState {
   traits: GrasshopperTraits;
   name: string;
   birthTime: number;
-  lastSyncTime?: number;
   lastVisionTime?: number;
   lastReproductionTime?: number;
+  waterTime?: number;
 }
 
 export interface FoodData {
@@ -38,7 +38,7 @@ export interface FoodData {
   position: [number, number, number];
   scale: number;
   health: number;
-  type?: 'plant' | 'egg';
+  type?: "plant" | "egg";
   spawnTime?: number;
   parentTraits?: GrasshopperTraits;
 }
@@ -60,11 +60,6 @@ export interface GrasshopperRefs {
 
 export interface ShapeVariations {
   scale: number;
-  thoraxTop: number; thoraxBot: number;
-  abdomenTop: number; abdomenBot: number;
-  femurTop: number; femurBot: number;
-  tibiaTop: number; tibiaBot: number;
-  frontLegTop: number; frontLegBot: number;
 }
 
 export interface SimulationSettings {
@@ -76,4 +71,5 @@ export interface SimulationSettings {
   fightLifesteal: number;
   waterLevel: number;
   terrainRoughness: number;
+  uiOpacity: number;
 }

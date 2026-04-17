@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSimulationStore } from '../store';
-import { Play } from 'lucide-react';
-import { useSettings } from '../context/SettingsContext';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { GrasshopperModel } from './Grasshopper/GrasshopperModel';
-import { useGrasshopperMaterials } from './Grasshopper/useGrasshopperMaterials';
-import * as THREE from 'three';
+import React, { useState, useEffect, useRef } from "react";
+import { useSimulationStore } from "../store";
+import { Play } from "lucide-react";
+import { useSettings } from "../context/SettingsContext";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { GrasshopperModel } from "./Grasshopper/GrasshopperModel";
+import { useGrasshopperMaterials } from "./Grasshopper/useGrasshopperMaterials";
+import * as THREE from "three";
 
 const SpinningCricket = () => {
   const { shape, materials } = useGrasshopperMaterials(false);
   const groupRef = useRef<THREE.Group>(null);
-  
+
   // Create dummy refs for the model
   const refs = {
     group: groupRef,
@@ -31,7 +31,8 @@ const SpinningCricket = () => {
     if (groupRef.current) {
       groupRef.current.rotation.y = state.clock.elapsedTime * 0.5;
       if (refs.bodyGroup.current) {
-        refs.bodyGroup.current.position.y = 0.6 + Math.sin(state.clock.elapsedTime * 4) * 0.1;
+        refs.bodyGroup.current.position.y =
+          0.6 + Math.sin(state.clock.elapsedTime * 4) * 0.1;
       }
     }
   });
@@ -54,10 +55,10 @@ export const LoadingScreen = () => {
     return unsub;
   }, []);
 
-  if (simState !== 'setup') return null;
+  if (simState !== "setup") return null;
 
   const handleStart = () => {
-    useSimulationStore.setSimulationState('running');
+    useSimulationStore.setSimulationState("running");
   };
 
   return (
@@ -73,18 +74,18 @@ export const LoadingScreen = () => {
       <div className="relative w-full max-w-md p-8 text-center z-10">
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl -z-10"></div>
-        
+
         <h1 className="text-6xl font-black tracking-tighter mb-2 text-transparent bg-clip-text bg-gradient-to-b from-emerald-400 to-emerald-700 drop-shadow-sm">
           CRICKET
           <br />
           <span className="text-4xl text-slate-100">ARENA</span>
         </h1>
-        
+
         <p className="text-slate-400 mb-12 text-lg">
           A voxel ecosystem simulation
         </p>
 
-        <button 
+        <button
           onClick={handleStart}
           className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-full text-xl transition-all hover:scale-105 active:scale-95 shadow-[0_0_40px_-10px_rgba(16,185,129,0.5)]"
         >

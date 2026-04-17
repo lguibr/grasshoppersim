@@ -1,48 +1,46 @@
-import * as THREE from 'three';
-import { GrasshopperState } from '../../../types';
-import { getGroundHeight } from '../../../utils/terrain';
+import * as THREE from "three";
+import { GrasshopperState } from "../../../types";
+import { getGroundHeight } from "../../../utils/terrain";
 
 export const handleCollision = (
   id: number,
   s: GrasshopperState,
   group: THREE.Group,
   positionsRef: React.MutableRefObject<Map<number, THREE.Vector3>>,
-  scale: number
+  scale: number,
 ) => {
   const myPos = group.position;
-  let pushX = 0, pushZ = 0;
+  let pushVec = new THREE.Vector3();
   const minDist = 2.5 * scale;
-  
+
   positionsRef.current.forEach((otherPos, otherId) => {
     if (otherId !== id) {
-      let dx = myPos.x - otherPos.x;
-      const dy = myPos.y - otherPos.y;
-      let dz = myPos.z - otherPos.z;
-      const distSq = dx*dx + dy*dy + dz*dz;
-      
+      const distSq = myPos.distanceToSquared(otherPos);
+
       if (distSq < minDist * minDist) {
         let dist = Math.sqrt(distSq);
+        let pushDir = new THREE.Vector3().subVectors(myPos, otherPos);
         if (dist < 0.001) {
-          dx = (Math.random() - 0.5) * 0.1;
-          dz = (Math.random() - 0.5) * 0.1;
-          dist = Math.sqrt(dx*dx + dz*dz);
+          pushDir.randomDirection().multiplyScalar(0.1);
+          dist = pushDir.length();
         }
+        pushDir.normalize();
         const force = (minDist - dist) / dist;
-        pushX += dx * force * 0.15;
-        pushZ += dz * force * 0.15;
+        pushVec.addScaledVector(pushDir, force * 0.15);
       }
     }
   });
-  
-  if (pushX !== 0 || pushZ !== 0) {
-    myPos.x += pushX; myPos.z += pushZ;
-    s.startPos.x += pushX; s.startPos.z += pushZ;
-    s.targetPos.x += pushX; s.targetPos.z += pushZ;
+
+  if (pushVec.lengthSq() > 0) {
+    myPos.add(pushVec);
+    s.startPos.add(pushVec);
+    s.targetPos.add(pushVec);
     if (!s.isJumping && !s.isFighting) {
-      myPos.y = getGroundHeight(myPos.x, myPos.z);
+      myPos.normalize().multiplyScalar(getGroundHeight(myPos));
     }
   }
-  
-  if (!positionsRef.current.has(id)) positionsRef.current.set(id, new THREE.Vector3());
+
+  if (!positionsRef.current.has(id))
+    positionsRef.current.set(id, new THREE.Vector3());
   positionsRef.current.get(id)!.copy(myPos);
 };

@@ -1,51 +1,72 @@
-import React, { useMemo, useRef } from 'react';
-import * as THREE from 'three';
-import { useFrame } from '@react-three/fiber';
-import { getGroundHeight, getGroundNormal } from '../../utils/terrain';
-import { useSettings } from '../../context/SettingsContext';
+import React, { useMemo, useRef } from "react";
+import * as THREE from "three";
+import { useFrame } from "@react-three/fiber";
+import { getGroundHeight, getGroundNormal } from "../../utils/terrain";
+import { useSettings } from "../../context/SettingsContext";
 
-import { ProceduralTree } from './Decorations/ProceduralTree';
-import { MushroomType1, MushroomType2 } from './Decorations/Mushrooms';
-import { Ladybug } from './Decorations/Ladybug';
+import { ProceduralTree } from "./Decorations/ProceduralTree";
+import { MushroomType1, MushroomType2 } from "./Decorations/Mushrooms";
+import { Ladybug } from "./Decorations/Ladybug";
 
 export const EnvironmentDecorations = ({ size }: { size: number }) => {
   const { settings } = useSettings();
 
-  const { treePositions, flowerPositions, ladybugPositions, mushroom1Positions, mushroom2Positions } = useMemo(() => {
+  const {
+    treePositions,
+    flowerPositions,
+    ladybugPositions,
+    mushroom1Positions,
+    mushroom2Positions,
+  } = useMemo(() => {
     const trees: THREE.Vector3[] = [];
-    const flowers: { pos: THREE.Vector3, color: string }[] = [];
+    const flowers: { pos: THREE.Vector3; color: string }[] = [];
     const ladybugs: THREE.Vector3[] = [];
     const mushrooms1: THREE.Vector3[] = [];
     const mushrooms2: THREE.Vector3[] = [];
 
+    const getPointOnSphere = () => {
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      const x = Math.sin(phi) * Math.cos(theta);
+      const y = Math.sin(phi) * Math.sin(theta);
+      const z = Math.cos(phi);
+      return new THREE.Vector3(x, y, z);
+    };
+
     // Generate Trees (Much fewer, much taller)
     const treeCount = 40;
     for (let i = 0; i < treeCount; i++) {
-      const x = (Math.random() - 0.5) * size;
-      const z = (Math.random() - 0.5) * size;
-      const y = getGroundHeight(x, z);
+      const p = getPointOnSphere();
+      const dist = getGroundHeight(p);
+      const waterHeight = size * 0.3 + settings.waterLevel;
 
-      if (y > settings.waterLevel + 5) {
-        trees.push(new THREE.Vector3(x, y, z));
+      if (dist > waterHeight + 5) {
+        const treePos = p.clone().multiplyScalar(dist);
+        trees.push(treePos);
 
         // Add ladybugs near trees
         if (Math.random() > 0.3) {
-          const lbX = x + (Math.random() - 0.5) * 10;
-          const lbZ = z + (Math.random() - 0.5) * 10;
-          const lbY = getGroundHeight(lbX, lbZ);
-          ladybugs.push(new THREE.Vector3(lbX, lbY, lbZ));
+          // perturb on sphere
+          const lbDir = p.clone()
+            .add(new THREE.Vector3().randomDirection().multiplyScalar(0.05))
+            .normalize();
+          const lbDist = getGroundHeight(lbDir);
+          ladybugs.push(lbDir.multiplyScalar(lbDist));
         }
 
         // Add mushrooms near trees
         for (let j = 0; j < 3; j++) {
           if (Math.random() > 0.5) {
-            const mX = x + (Math.random() - 0.5) * 8;
-            const mZ = z + (Math.random() - 0.5) * 8;
-            const mY = getGroundHeight(mX, mZ);
+            const mDir = p.clone()
+              .add(new THREE.Vector3().randomDirection().multiplyScalar(0.04))
+              .normalize();
+            const mDist = getGroundHeight(mDir);
             if (Math.random() > 0.5) {
-              mushrooms1.push(new THREE.Vector3(mX, mY, mZ));
+              mushrooms1.push(mDir.clone().multiplyScalar(mDist));
             } else {
-              mushrooms2.push(new THREE.Vector3(mX, mY, mZ));
+              mushrooms2.push(mDir.clone().multiplyScalar(mDist));
             }
           }
         }
@@ -54,21 +75,27 @@ export const EnvironmentDecorations = ({ size }: { size: number }) => {
 
     // Generate Flowers
     const flowerCount = 200;
-    const colors = ['#ef4444', '#eab308', '#a855f7', '#ec4899', '#3b82f6'];
+    const colors = ["#ef4444", "#eab308", "#a855f7", "#ec4899", "#3b82f6"];
     for (let i = 0; i < flowerCount; i++) {
-      const x = (Math.random() - 0.5) * size;
-      const z = (Math.random() - 0.5) * size;
-      const y = getGroundHeight(x, z);
+      const p = getPointOnSphere();
+      const dist = getGroundHeight(p);
+      const waterHeight = size * 0.3 + settings.waterLevel;
 
-      if (y > settings.waterLevel + 1) {
+      if (dist > waterHeight + 1) {
         flowers.push({
-          pos: new THREE.Vector3(x, y, z),
-          color: colors[Math.floor(Math.random() * colors.length)]
+          pos: p.multiplyScalar(dist + 0.15),
+          color: colors[Math.floor(Math.random() * colors.length)],
         });
       }
     }
 
-    return { treePositions: trees, flowerPositions: flowers, ladybugPositions: ladybugs, mushroom1Positions: mushrooms1, mushroom2Positions: mushrooms2 };
+    return {
+      treePositions: trees,
+      flowerPositions: flowers,
+      ladybugPositions: ladybugs,
+      mushroom1Positions: mushrooms1,
+      mushroom2Positions: mushrooms2,
+    };
   }, [size, settings.terrainRoughness, settings.waterLevel]);
 
   const flowerGeom = useMemo(() => new THREE.SphereGeometry(0.3, 4, 4), []);
@@ -89,11 +116,21 @@ export const EnvironmentDecorations = ({ size }: { size: number }) => {
       ))}
 
       {/* Flowers */}
-      {flowerPositions.map((f, i) => (
-        <mesh key={`flower-${i}`} geometry={flowerGeom} position={[f.pos.x, f.pos.y + 0.15, f.pos.z]} castShadow>
-          <meshStandardMaterial color={f.color} roughness={0.4} />
-        </mesh>
-      ))}
+      {flowerPositions.map((f, i) => {
+        const up = f.pos.clone().normalize();
+        const quat = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), up);
+        return (
+          <group key={`flower-${i}`} position={f.pos} quaternion={quat}>
+            <mesh
+              geometry={flowerGeom}
+              position={[0, 0.15, 0]}
+              castShadow
+            >
+              <meshStandardMaterial color={f.color} roughness={0.4} />
+            </mesh>
+          </group>
+        );
+      })}
 
       {/* Ladybugs */}
       {ladybugPositions.map((pos, i) => (
