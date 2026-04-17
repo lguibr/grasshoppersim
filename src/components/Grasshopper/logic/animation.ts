@@ -78,18 +78,19 @@ export const applyJumpAnimation = (
     middleLegRot = 0.1 + tuck;
 
     if (jumpProgress > 0.05 && jumpProgress < 0.95) {
-      const flap = Math.sin(jumpProgress * 80) * 0.5; // Reduce intensity of flap
+      const flap = Math.sin(jumpProgress * 80) * 0.5; // Rapid flapping
+      // Hinge on Z axis (roll) and slightly pitch up (X) to simulate wing spreading
       if (leftWing.current)
         leftWing.current.rotation.set(
-          Math.PI / 2 - 0.25 + flap,
+          Math.PI / 2 - 0.15,
           0.3,
-          0,
+          flap * 1.5,
         );
       if (rightWing.current)
         rightWing.current.rotation.set(
-          Math.PI / 2 - 0.25 + flap,
+          Math.PI / 2 - 0.15,
           -0.3,
-          0,
+          -flap * 1.5,
         );
     } else {
       if (leftWing.current)

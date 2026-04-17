@@ -28,9 +28,13 @@ export interface GrasshopperState {
   traits: GrasshopperTraits;
   name: string;
   birthTime: number;
+  lastSyncTime?: number;
   lastVisionTime?: number;
   lastReproductionTime?: number;
   waterTime?: number;
+  lastFightCheckTime?: number;
+  wasFighting?: boolean;
+  lastFightAggressiveness?: number;
 }
 
 export interface FoodData {

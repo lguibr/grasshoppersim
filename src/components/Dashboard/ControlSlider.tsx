@@ -48,17 +48,17 @@ export const ControlSlider = ({
         <Tooltip>
           <TooltipTrigger
             render={
-              <label className="flex items-center gap-1.5 text-[10px] font-bold text-slate-300 uppercase tracking-wider cursor-help" />
+              <label className="flex items-center gap-1.5 text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] cursor-help" />
             }
           >
             {icon}
             <span className="truncate max-w-[80px]">{label}</span>
           </TooltipTrigger>
-          <TooltipContent side="left">
+          <TooltipContent side="left" className="bg-slate-950 border-emerald-500/50 rounded-none text-emerald-400 font-mono text-[10px]">
             <p>{tooltip}</p>
           </TooltipContent>
         </Tooltip>
-        <span className="text-emerald-400 font-mono text-[11px] font-bold bg-slate-950 px-1.5 py-0.5 rounded shadow-inner">
+        <span className="text-emerald-400 font-mono text-[11px] font-bold bg-slate-950/80 px-1 border border-emerald-500/30 shadow-[0_0_8px_rgba(52,211,153,0.3)]">
           {localValue}
         </span>
       </div>

@@ -38,12 +38,12 @@ export const CameraManager = () => {
         // Grasshopper mesh is facing +Z
         const dir = new THREE.Vector3(0, 0, 1).applyQuaternion(finalQuat).normalize();
 
-        // Position camera behind and slightly above the cricket
-        const cameraOffset = up.clone().multiplyScalar(3).add(dir.clone().multiplyScalar(-6));
+        // Position camera tightly behind the head for Action POV
+        const cameraOffset = up.clone().multiplyScalar(1.4).add(dir.clone().multiplyScalar(-1.5));
         const targetCameraPos = pos.clone().add(cameraOffset);
 
-        // Look ahead of the cricket
-        const lookAtPos = headPos.clone().add(dir.multiplyScalar(10));
+        // Look directly ahead along the vision path
+        const lookAtPos = headPos.clone().add(dir.multiplyScalar(15));
 
         // Align camera's internal up vector to the planet normal so lookAt doesn't twist wildly
         camera.up.lerp(up, 0.2).normalize();

@@ -58,5 +58,10 @@ export const useGrasshopperMaterials = (isBaby: boolean | undefined) => {
     [],
   );
 
-  return { shape, baseColors: SHARED_COLORS, materials: SHARED_MATERIALS };
+  const materials = useMemo(() => ({
+    ...SHARED_MATERIALS,
+    visionCone: SHARED_MATERIALS.visionCone.clone() as THREE.MeshBasicMaterial,
+  }), []);
+
+  return { shape, baseColors: SHARED_COLORS, materials };
 };

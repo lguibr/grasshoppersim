@@ -5,6 +5,7 @@ import { InstancedFoods } from "../Food/InstancedFoods";
 import { EnvironmentSetup } from "./EnvironmentSetup";
 import { Terrain } from "./Terrain";
 import { EnvironmentDecorations } from "./EnvironmentDecorations";
+import { PlanetGrass } from "./Decorations/PlanetGrass";
 import { FoodData } from "../../types";
 import { useSettings } from "../../context/SettingsContext";
 import { useGrasshopperManager } from "./useGrasshopperManager";
@@ -49,6 +50,7 @@ export const Scene = () => {
       </group>
       <Terrain size={settings.envSize + 200} />
       <EnvironmentDecorations size={settings.envSize + 200} />
+      <PlanetGrass />
       <SolarSystem size={settings.envSize + 200} />
     </>
   );

@@ -15,7 +15,7 @@ export const MetricsChart = ({
 
   return (
     <div className="h-full w-full flex flex-col relative overflow-hidden">
-      <div className="absolute top-1 left-2 z-10 flex flex-wrap text-[8px] font-black tracking-widest uppercase gap-x-2 opacity-60">
+      <div className="absolute top-1 left-2 z-10 flex flex-wrap text-[9px] font-black tracking-[0.2em] uppercase gap-x-2 drop-shadow-[0_0_6px_rgba(255,255,255,0.4)]">
         <span className="text-emerald-400">Pop: {population}</span>
         <span className="text-amber-400">Food: {history[history.length - 1]?.food || 0}</span>
         <span className="text-blue-400">Spd</span>

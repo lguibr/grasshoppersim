@@ -20,9 +20,9 @@ export const SimulationControls = () => {
 
   return (
     <>
-      <div className="p-4 border-b border-slate-800 bg-slate-900 shrink-0">
-        <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-          <SettingsIcon size={14} />
+      <div className="p-4 border-b border-slate-800 bg-slate-950 shrink-0 shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
+        <h2 className="text-xs font-black text-emerald-400 uppercase tracking-[0.3em] flex items-center gap-2 drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]">
+          <SettingsIcon size={14} className="animate-spin-slow" />
           Simulation Controls
         </h2>
       </div>

@@ -22,7 +22,7 @@ export const GameLayout = ({ children }: { children: React.ReactNode }) => {
   const [topHeight, setTopHeight] = useState(60);
   const [sidebarWidth, setSidebarWidth] = useState(600);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const { settings } = useSettings();
+  const { settings, triggerReset } = useSettings();
 
   const handleDragDivider = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -104,24 +104,29 @@ export const GameLayout = ({ children }: { children: React.ReactNode }) => {
   const currentFood = history.length > 0 ? history[history.length - 1].food : 0;
 
   return (
-    <div className="w-screen h-screen bg-slate-950 flex flex-col font-sans text-slate-200 overflow-hidden">
-      <div className="flex-1 flex overflow-hidden">
-        {/* Left Sidebar: Combined Dashboard */}
-        <aside 
-          className="bg-slate-900/95 border-r border-slate-800 flex flex-col shrink-0 z-20 shadow-lg relative transition-opacity duration-300"
-          style={{ 
-            opacity: settings.uiOpacity !== undefined ? settings.uiOpacity / 100 : 1,
-            width: `${sidebarWidth}px`
-          }}
-        >
+    <div className="w-screen h-screen bg-black flex flex-col font-sans text-slate-200 overflow-hidden relative selection:bg-emerald-500/30">
+      
+      {/* Middle Content: Canvas (Now Full Screen Background) */}
+      <main className="absolute inset-0 z-0 bg-slate-950">
+        {/* 3D Canvas Container */}
+        <div className="w-full h-full">{children}</div>
+      </main>
+
+      {/* Floating HUD: Combined Dashboard */}
+      <aside 
+        className="absolute top-4 left-4 bottom-4 bg-slate-950 border border-slate-700/80 flex flex-col z-20 shadow-[0_0_20px_rgba(0,0,0,0.8)] transition-all duration-300 pointer-events-auto overflow-hidden before:absolute before:inset-0 before:ring-1 before:ring-inset before:ring-white/5"
+        style={{ 
+          width: `${sidebarWidth}px`
+        }}
+      >
           <div ref={sidebarRef} className="flex flex-col flex-1 overflow-hidden">
             {/* Top Half: Roster (Larger) */}
             <div 
               style={{ height: `${topHeight}%` }}
-              className="flex flex-col overflow-hidden min-h-0 bg-slate-900/50"
+              className="flex flex-col overflow-hidden min-h-0 bg-slate-950"
             >
-              <div className="p-3 border-b border-slate-800 bg-slate-900 flex flex-col gap-3 shrink-0">
-                <div className="flex items-center justify-around bg-slate-950/50 px-3 py-2 rounded-lg border border-slate-800 shadow-inner">
+              <div className="p-3 border-b border-slate-800 bg-slate-950 flex flex-col gap-3 shrink-0">
+                <div className="flex items-center justify-around bg-slate-900 px-3 py-2 border border-slate-800 shadow-inner">
                   <Tooltip>
                     <TooltipTrigger
                       render={
@@ -194,14 +199,13 @@ export const GameLayout = ({ children }: { children: React.ReactNode }) => {
         {/* Sidebar Vertical Resizer */}
         <div
           onMouseDown={handleDragWidth}
-          className="w-1.5 bg-slate-800 cursor-col-resize hover:bg-emerald-500/50 transition-colors z-50 shrink-0"
+          className="absolute top-4 bottom-4 w-2 bg-transparent cursor-col-resize hover:bg-emerald-500/20 transition-colors z-50 shrink-0"
+          style={{ left: `${sidebarWidth + 14}px` }}
           title="Drag to resize width"
         />
 
-        {/* Middle Content: Canvas */}
-        <main className="flex-1 flex flex-col relative z-0 overflow-hidden bg-slate-950">
-          {/* Floating Controls */}
-          <div className="absolute top-4 right-4 z-30 flex gap-2">
+        {/* Floating Controls Overlay */}
+        <div className="absolute top-4 right-4 z-30 flex gap-2 pointer-events-auto">
             <Tooltip>
               <TooltipTrigger
                 render={
@@ -255,12 +259,6 @@ export const GameLayout = ({ children }: { children: React.ReactNode }) => {
             </Tooltip>
           </div>
 
-          {/* 3D Canvas Container */}
-          <div className="flex-1 relative">{children}</div>
-        </main>
-
-        {/* Right Sidebar entirely removed as requested */}
-      </div>
     </div>
   );
 };
