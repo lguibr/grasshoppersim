@@ -1,5 +1,6 @@
 
-<img src="https://github.com/lguibr/grasshoppersim/logo.png" alt="GrasshopperSim" width="100%"/>
+<img src="https://raw.githubusercontent.com/lguibr/grasshoppersim/main/logo.png" height="120px" style="max-width: 120px; padding: 10px;" alt="GrasshopperSim Logo" />
+
 # GrasshopperSim
 
 **An Evolutionary Sandbox & Game Theory Visualizer**
