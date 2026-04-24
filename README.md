@@ -1,6 +1,7 @@
-<div align="center">
 
-# 🦗 GrasshopperSim
+<img src="https://github.com/lguibr/grasshoppersim/logo.png" alt="GrasshopperSim" width="100%"/>
+# GrasshopperSim
+
 **An Evolutionary Sandbox & Game Theory Visualizer**
 
 [![React Three Fiber](https://img.shields.io/badge/React_Three_Fiber-black?style=flat-square&logo=react&logoColor=61DAFB)](#)
@@ -10,16 +11,16 @@
 
 *A WebGL-powered ecosystem where artificial lifeforms inherit traits, compete for resources, and showcase emergent behavioral strategies over generations.*
 
-</div>
-
 ---
 
 ## 🧬 Theoretical Foundation
 
-GrasshopperSim is not just a visualizer; it is an interactive laboratory exploring the fundamental mechanics of **Evolutionary Algorithms** and **Game Theory**. 
+GrasshopperSim is not just a visualizer; it is an interactive laboratory exploring the fundamental mechanics of **Evolutionary Algorithms** and **Game Theory**.
 
 ### The Evolutionary Engine
+
 Agents in the simulation possess a discrete genome composed of continuous traits:
+
 - **`speed`**: Energy expenditure rate vs. resource acquisition potential.
 - **`jumpDistance` & `jumpHeight`**: Physical locomotion strategies.
 - **`aggressiveness`**: The propensity to engage in combative interactions over resources.
@@ -27,7 +28,9 @@ Agents in the simulation possess a discrete genome composed of continuous traits
 Through continuous time simulation, agents that secure sufficient resources (`health`) live long enough to pass their optimized trait matrices down to the next `generation`.
 
 ### Game Theory in Action: The Hawk-Dove Dynamic
+
 The simulation organically manifests the classic **Hawk-Dove game**. When two agents compete for the same food node, their `aggressiveness` trait dictates the encounter:
+
 - High-aggressiveness ('Hawks') risk fatal damage but gain a monopoly on resources.
 - Low-aggressiveness ('Doves') share or flee, ensuring survival but missing optimal energy gains.
 Over time, the population approaches an Evolutionary Stable Strategy (ESS), visible in real-time through the metrics dashboard.
@@ -82,6 +85,7 @@ sequenceDiagram
 ## 🚀 Getting Started
 
 ### Local Deployment
+
 Ensure you have Node.js and `npm` installed.
 
 ```bash
@@ -96,7 +100,9 @@ npm run dev
 ```
 
 ### Build for Production
+
 To bundle the WebGL canvas and React bundle into a unified, high-performance static build:
+
 ```bash
 npm run build
 npm run preview
@@ -107,6 +113,7 @@ npm run preview
 ## 📊 Telemetry & Observation
 
 The environment heavily features real-time metric tracking via `recharts` and `echarts-gl`:
+
 - **Population Velocity**: Track rapid birth/death spikes in response to environmental carrying capacity constraints.
 - **Trait Drift**: Graph average speeds and jump heights as the environment applies selective pressure.
 - **Generational Lineage**: Track the longest surviving family names natively generated via the engine.
